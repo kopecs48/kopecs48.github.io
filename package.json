@@ -1,7 +1,7 @@
 {
   "name": "my-portfolio",
   "version": "0.1.0",
-  "homepage": "https://kopecs48.github.io/",
+  "homepage": "https://kopecs48.github.io/kopecs48.github.io",
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.9.0",
