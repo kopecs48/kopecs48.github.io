@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.projects {
+  list-style-type: none;
+  justify-content: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +40,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .wrapper { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 12000px) {
+  .wrapper { grid-template-columns: repeat(3, 1fr); }
 }
