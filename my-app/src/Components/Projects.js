@@ -2,6 +2,9 @@ import { projects } from '../data'
 import '../App.css';
 // import { CodeIcon } from "@heroicons/react/solid";
 import React from "react";
+import {
+  Link
+} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
@@ -24,7 +27,7 @@ function BasicExample() {
       </Card.Body>
       <Card.Footer style={{border: 'none'}}>
         {project.link.length > 1 && (
-          <Button variant="primary" href={project.link}>See Project</Button>
+          <Button href={project.link} target ="_blank">See Project</Button>
         )}
       
       </Card.Footer>

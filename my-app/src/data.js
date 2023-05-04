@@ -12,7 +12,7 @@ const projects = [
                       "then the current date and time will be added as fields, along with a streak field which keeps track of how many days in" + 
                       "a row this user has posted a mood status.",
         image: moodWebApp,
-        link: 'skopec.pythonanywhere.com',
+        link: 'http://skopec.pythonanywhere.com',
         id: 1
     },
     {
