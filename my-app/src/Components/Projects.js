@@ -2,38 +2,20 @@ import { projects } from '../data'
 import '../App.css';
 // import { CodeIcon } from "@heroicons/react/solid";
 import React from "react";
-import {
-  Link
-} from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 function BasicExample() {
   return (
-    <div className = "wrapper">
+    <div className='card'>
       
     {projects.map((project, index) => (
-     
-      <li className = "projects text-center" key = {project.id}>
-      <Card style={{ width: '40rem' , height: '40rem'}}>
-      <Card.Img variant="top" src = {project.image} style={{width: '40rem', height: '25rem'}}/>
-      <Card.Body className='d-flex flex-column'>
-        <Card.Title>{project.name}</Card.Title>
-        <Card.Text>
-          {project.description}
-        </Card.Text>
-        
-      </Card.Body>
-      <Card.Footer style={{border: 'none'}}>
-        {project.link.length > 1 && (
-          <Button href={project.link} target ="_blank">See Project</Button>
-        )}
-      
-      </Card.Footer>
-      </Card>
-    </li>
-    
+     <div className='projects'>
+      <li className = "projects" key = {project.id}>
+        <p>{project.name}</p>
+        <img src={project.image} style={{width: '40rem', height: '25rem'}}></img>
+        <p>{project.description}</p>
+        <a target="_blank" href= {project.link}>See Project</a>
+      </li>
+      </div>
     ))}
     </div>
   );

@@ -1,16 +1,7 @@
-.App {
+body {
+  margin:0;
+  justify-content: center;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -42,7 +33,36 @@
   }
 }
 
-.wrapper {
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  
+}
+
+.navbar a:hover {
+  background: #ddd;
+  color: black;
+}
+
+.main {
+  padding: 16px;
+  margin-top: 30px;
+}
+
+.card{
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -50,9 +70,11 @@
 }
 
 @media (min-width: 600px) {
-  .wrapper { grid-template-columns: repeat(2, 1fr); }
+  .card { grid-template-columns: repeat(1, 1fr); }
 }
 
-@media (min-width: 12000px) {
-  .wrapper { grid-template-columns: repeat(3, 1fr); }
+@media (min-width: 1400px) {
+  .card { grid-template-columns: repeat(2, 1fr); }
 }
+
+
