@@ -8,12 +8,14 @@ function BasicExample() {
     <div className='card'>
       
     {projects.map((project, index) => (
-     <div className='projects'>
+     <div className='project'>
       <li className = "projects" key = {project.id}>
         <p>{project.name}</p>
-        <img src={project.image} style={{width: '40rem', height: '25rem'}}></img>
+        <img src={project.image} alt ={project.name} style={{width: '40rem', height: '25rem'}}></img>
         <p>{project.description}</p>
-        <a target="_blank" href= {project.link}>See Project</a>
+        {index === 1 && <br/>}
+        
+        <a target="_blank" rel="noopener noreferrer" href= {project.link}>See Project</a>
       </li>
       </div>
     ))}

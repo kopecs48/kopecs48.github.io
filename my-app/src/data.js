@@ -19,7 +19,7 @@ const projects = [
         name: "Django Music Player",
         description: "The goal of this project was to create an all in one social media and music web application." + 
                      "This was achieved by using the Django Framework and Spotifty python API. This web app allowed for" + 
-                     "music playback, playlist creation, and user interaction through profile and song comments.",
+                    "music playback, playlist creation, and user interaction through profile and song comments." ,
         image: musicBuddy,
         link: 'https://github.com/kopecs48/DjangoSpotify',
         id : 2

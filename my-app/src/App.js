@@ -6,6 +6,7 @@ function App() {
   return (
     <body>
     <Navbar />
+    <br/>
     <div className='main'>
     <Projects />
     </div>
