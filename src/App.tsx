@@ -47,14 +47,6 @@ const projects: Project[] = [
     tags: ['scikit-learn', 'NumPy', 'Matplotlib'],
     href: 'https://github.com/kopecs48/Metric-Learn-Data-Visualization',
   },
-  {
-    number: '05',
-    title: 'Secure Access',
-    summary: 'A React authentication flow powered by AWS Cognito, including verification and account recovery.',
-    image: '/images/userLoginHome.png',
-    tags: ['React', 'AWS Amplify', 'Cognito'],
-    href: 'https://github.com/kopecs48/aws-cognito-tutorial-starter',
-  },
 ]
 
 const skills = ['TypeScript', 'React', 'Node.js', 'Docker', 'GitHub Codespaces', 'CI/CD', 'VS Code Extensions', 'MCP']
