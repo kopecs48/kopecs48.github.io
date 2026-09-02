@@ -14,6 +14,15 @@ type Project = {
 const projects: Project[] = [
   {
     number: '01',
+    title: 'MCP Dashboard',
+    summary: 'A self-hosted, containerized reverse proxy that brings visibility to MCP traffic across my local AI setup by logging tool calls, status, latency, and payloads.',
+    image: '/images/mcp_dashboard.png',
+    tags: ['TypeScript', 'Fastify', 'SQLite', 'Docker', 'MCP', 'Self-hosted'],
+    href: 'https://github.com/kopecs48/mcp-dashboard',
+    featured: true,
+  },
+  {
+    number: '02',
     title: 'MusicBuddy',
     summary: 'A social music platform that brings Spotify playback, playlists, profiles, and conversation into one connected experience.',
     image: '/images/musicBuddyHome.png',
@@ -22,17 +31,16 @@ const projects: Project[] = [
     featured: true,
   },
   {
-    number: '02',
+    number: '03',
     title: 'Mood Journal',
     summary: 'A private daily check-in app with secure accounts, personal post history, and streak tracking.',
     image: '/images/moodWebApp.png',
     tags: ['Django REST', 'Python', 'Authentication'],
     href: 'https://github.com/kopecs48/MoodWebApp',
-    live: 'https://skopec.pythonanywhere.com/',
     featured: true,
   },
   {
-    number: '03',
+    number: '04',
     title: 'Metric Learning Lab',
     summary: 'A visual data-analysis pipeline comparing learned distance metrics through KNN classification accuracy.',
     image: '/images/metricLearnHome.png',
@@ -40,7 +48,7 @@ const projects: Project[] = [
     href: 'https://github.com/kopecs48/Metric-Learn-Data-Visualization',
   },
   {
-    number: '04',
+    number: '05',
     title: 'Secure Access',
     summary: 'A React authentication flow powered by AWS Cognito, including verification and account recovery.',
     image: '/images/userLoginHome.png',
@@ -97,20 +105,23 @@ function App() {
       <main id="top">
         <section className="hero section-pad">
           <p className="eyebrow"><span className="status-dot" /> Available for the right opportunity</p>
-          <h1>I build software<br />with <em>clarity</em> and care.</h1>
+          <h1>Curious by nature.<br /><em>Always learning.</em></h1>
           <div className="hero-bottom">
-            <p className="intro-copy">I’m Shane, a software engineer focused on turning complex problems into thoughtful, dependable digital experiences.</p>
-            <a className="circle-link" href="#about" aria-label="Learn more about Shane"><Arrow /></a>
+            <p className="intro-copy">I’m Shane, a software engineer who likes asking how things work, learning what I don’t know, and turning that curiosity into useful software.</p>
+            <a className="hero-portrait" href="#about" aria-label="Learn more about Shane">
+              <img src="/images/shane-kopec-headshot.jpg" alt="Shane Kopec" />
+              <span className="portrait-arrow"><Arrow /></span>
+            </a>
           </div>
-          <div className="hero-rule"><span>Based in Lawrence, New Jersey</span><span>Software Engineer · Problem Solver</span></div>
+          <div className="hero-rule"><span>Based in Lawrence, New Jersey</span><span>Software Engineer · Lifelong Learner</span></div>
         </section>
 
         <section className="about section-pad" id="about">
-          <div className="about-label"><span>About</span><span className="scribble">Built for real-world scale</span></div>
+          <div className="about-label"><span>About</span><span className="curiosity-note">Always asking why</span></div>
           <div className="about-copy">
-            <h2>Full-stack perspective.<br /><em>Platform-scale</em> impact.</h2>
+            <h2>Learning across the stack.<br /><em>Building at scale.</em></h2>
             <div className="about-columns">
-              <p>I’m a full-stack software engineer experienced in building React and TypeScript products, Node.js services, and containerized development infrastructure. At Cengage, my work supported cloud-based learning environments used across 24 programming courses and more than 170,000 students.</p>
+              <p>Curiosity has taken me across the stack—from React and TypeScript products to Node.js services and containerized development infrastructure. At Cengage, that breadth helped me support cloud-based learning environments used across 24 programming courses and more than 170,000 students.</p>
               <p>I’ve led JavaScript-to-TypeScript migrations, redesigned content delivery and validation pipelines, and reduced developer feedback time by roughly 85%. I care about dependable systems, maintainable code, and solving the infrastructure problems that make better product experiences possible.</p>
             </div>
             <ul className="skills-list">
@@ -154,6 +165,49 @@ function App() {
           </div>
         </section>
 
+        <section className="interests section-pad" aria-labelledby="interests-heading">
+          <div className="section-heading interests-heading">
+            <p className="kicker">Beyond work</p>
+            <div>
+              <h2 id="interests-heading">Off the clock.<br /><em>Still curious.</em></h2>
+              <p className="interests-intro">My curiosity follows me beyond the job. I enjoy running technology on my own terms and exploring the systems behind the tools I use.</p>
+            </div>
+          </div>
+          <div className="interest-list">
+            <article>
+              <span>01</span>
+              <h3>Local LLMs</h3>
+              <p>I experiment with models that run locally to better understand their capabilities, tradeoffs, and the infrastructure working behind the interface.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Self-hosting</h3>
+              <p>I like taking ownership of the whole stack—deploying useful services, keeping them running, and learning from everything that breaks along the way.</p>
+            </article>
+          </div>
+          <div className="homelab-setup">
+            <p className="kicker">The setup</p>
+            <div className="machine-list">
+              <article>
+                <div className="machine-heading">
+                  <span>01</span>
+                  <h3>Dual-boot workstation</h3>
+                </div>
+                <p className="machine-specs">Ryzen 7 9800X3D · MSI Ventus 3X RTX 5090 · 32 GB DDR5</p>
+                <p>I built this workstation myself and dual-boot Windows for gaming and Arch Linux for gaming and development. With roughly 29 GB of VRAM available after Arch and KDE Plasma overhead, I use llama.cpp to run Qwen3.8 and other 27B dense or comparably sized MoE models locally.</p>
+              </article>
+              <article>
+                <div className="machine-heading">
+                  <span>02</span>
+                  <h3>Ubuntu server</h3>
+                </div>
+                <p className="machine-specs">Ryzen 7 5700X · RTX 3080 · 32 GB DDR4</p>
+                <p>I built the machine entirely from secondhand parts and chose Ubuntu for its stability. Services run directly in Docker containers instead of through Proxmox, keeping GPU access straightforward without an added virtualization layer.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
         <section className="projects section-pad" id="work">
           <div className="section-heading">
             <p className="kicker">Selected work</p>
@@ -164,7 +218,7 @@ function App() {
               <article className={project.featured ? 'project-card featured' : 'project-card'} key={project.title}>
                 <div className="project-image-wrap">
                   <span className="project-number">{project.number}</span>
-                  <img src={project.image} alt={`${project.title} interface`} loading="lazy" />
+                  <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
                 </div>
                 <div className="project-content">
                   <div>
