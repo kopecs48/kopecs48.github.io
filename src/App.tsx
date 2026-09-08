@@ -5,6 +5,7 @@ type Project = {
   title: string
   summary: string
   image: string
+  video?: string
   tags: string[]
   href?: string
   live?: string
@@ -23,29 +24,13 @@ const projects: Project[] = [
   },
   {
     number: '02',
-    title: 'MusicBuddy',
-    summary: 'A social music platform that brings Spotify playback, playlists, profiles, and conversation into one connected experience.',
-    image: '/images/musicBuddyHome.png',
-    tags: ['Django', 'Python', 'Spotify API', 'Bootstrap'],
-    href: 'https://github.com/kopecs48/DjangoSpotify',
+    title: 'Procedural Animations',
+    summary: 'Asset-free character and animal animations in Lua and LÖVE2D, with reusable movement modules for walking, trotting, and slithering and interchangeable visual models.',
+    image: '/images/human-walking.jpg',
+    video: '/videos/human-walking.webm',
+    tags: ['Lua', 'LÖVE2D', 'Procedural Animation'],
+    href: 'https://github.com/kopecs48/ProceduralAnimations',
     featured: true,
-  },
-  {
-    number: '03',
-    title: 'Mood Journal',
-    summary: 'A private daily check-in app with secure accounts, personal post history, and streak tracking.',
-    image: '/images/moodWebApp.png',
-    tags: ['Django REST', 'Python', 'Authentication'],
-    href: 'https://github.com/kopecs48/MoodWebApp',
-    featured: true,
-  },
-  {
-    number: '04',
-    title: 'Metric Learning Lab',
-    summary: 'A visual data-analysis pipeline comparing learned distance metrics through KNN classification accuracy.',
-    image: '/images/metricLearnHome.png',
-    tags: ['scikit-learn', 'NumPy', 'Matplotlib'],
-    href: 'https://github.com/kopecs48/Metric-Learn-Data-Visualization',
   },
 ]
 
@@ -203,27 +188,35 @@ function App() {
         <section className="projects section-pad" id="work">
           <div className="section-heading">
             <p className="kicker">Selected work</p>
-            <h2>Projects made to be <em>used.</em></h2>
+            <h2>Exploring through <em>building.</em></h2>
           </div>
           <div className="project-list">
             {projects.map((project) => (
               <article className={project.featured ? 'project-card featured' : 'project-card'} key={project.title}>
-                <div className="project-image-wrap">
-                  <span className="project-number">{project.number}</span>
-                  <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
-                </div>
-                <div className="project-content">
-                  <div>
-                    <h3>{project.title}</h3>
-                    <p>{project.summary}</p>
+                {project.video ? (
+                  <div className="project-image-wrap">
+                    <span className="project-number">{project.number}</span>
+                    <video controls playsInline preload="none" poster={project.image} aria-label={`${project.title}: human walking animation demo`}>
+                      <source src={project.video} type="video/webm" />
+                      <a href={project.video}>Download the animation demo</a>
+                    </video>
                   </div>
+                ) : (
+                  <div className="project-image-wrap">
+                    <span className="project-number">{project.number}</span>
+                    <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
+                  </div>
+                )}
+                <div className="project-content">
+                  <div className="project-title-row">
+                    <h3>{project.title}</h3>
+                    {project.href && <a className="project-code-button" href={project.href} target="_blank" rel="noreferrer" aria-label={`View ${project.title} code on GitHub`}>View code <Arrow diagonal /></a>}
+                  </div>
+                  <p>{project.summary}</p>
                   <ul className="tag-list" aria-label="Technologies">
                     {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
                   </ul>
-                  <div className="project-links">
-                    {project.href && <a href={project.href} target="_blank" rel="noreferrer">View code <Arrow diagonal /></a>}
-                    {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live site <Arrow diagonal /></a>}
-                  </div>
+                  {project.live && <div className="project-links"><a href={project.live} target="_blank" rel="noreferrer">Live site <Arrow diagonal /></a></div>}
                 </div>
               </article>
             ))}

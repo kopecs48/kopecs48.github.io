@@ -87,12 +87,17 @@ em { font-family: 'Newsreader', serif; font-weight: 400; }
 .section-heading h2, .about h2, .contact h2 { font-size: clamp(3rem, 6.7vw, 7.3rem); letter-spacing: -.06em; line-height: .92; font-weight: 500; margin: 0; }
 .project-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(4rem, 8vw, 8rem) clamp(2rem, 5vw, 6rem); }
 .project-card:nth-child(even) { margin-top: 10rem; }
-.project-image-wrap { aspect-ratio: 4 / 3; background: #24372e; position: relative; overflow: hidden; padding: clamp(1rem, 2vw, 2rem); }
-.project-image-wrap img { width: 100%; height: 100%; object-fit: contain; filter: saturate(.9); transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s; }
-.project-card:hover img { transform: scale(1.035); filter: saturate(1); }
+.project-image-wrap { display: block; aspect-ratio: 4 / 3; background: #24372e; position: relative; overflow: hidden; padding: clamp(1rem, 2vw, 2rem); }
+.project-image-wrap img { width: 100%; height: 100%; object-fit: contain; filter: saturate(.9); }
+.project-image-wrap video { display: block; width: 100%; height: 100%; object-fit: contain; }
 .project-number { position: absolute; top: 1rem; left: 1rem; z-index: 2; width: 2.5rem; height: 2.5rem; background: var(--gold); color: var(--paper); border-radius: 50%; display: grid; place-items: center; font: .65rem 'DM Mono', monospace; }
 .project-content { padding-top: 1.7rem; border-top: 1px solid rgba(233,229,214,.25); margin-top: 1.5rem; }
 .project-content h3 { font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -.04em; margin-bottom: .8rem; }
+.project-title-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.project-title-row h3 { min-width: 0; margin-bottom: 0; }
+.project-code-button { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; gap: .6rem; min-height: 44px; padding: .85rem 1rem; border: 1px solid var(--accent); border-radius: 3rem; background: var(--accent); color: var(--paper); font: .75rem 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .04em; transition: background .2s, border-color .2s; }
+.project-code-button:hover { background: var(--ink); border-color: var(--ink); }
+.project-code-button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .project-content p { max-width: 37rem; color: rgba(233,229,214,.68); line-height: 1.7; font-size: .92rem; }
 .tag-list { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: 1.4rem 0; list-style: none; }
 .tag-list li { border: 1px solid rgba(233,229,214,.25); padding: .45rem .7rem; border-radius: 2rem; font: .62rem 'DM Mono', monospace; text-transform: uppercase; }
