@@ -1,10 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#101815" />
+    <meta name="theme-color" content="#111a2e" />
+    <script>
+      // Apply a saved light-mode choice before first paint; dark is the default.
+      try {
+        if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light'
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/jpeg" href="/images/shane-kopec-headshot.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..700;1,400..700&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet" />
     <meta name="description" content="Shane Kopec — a curious software engineer and lifelong learner building useful digital experiences." />
     <title>Shane Kopec — Software Engineer</title>
   </head>

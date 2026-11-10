@@ -1,242 +1,221 @@
 import { useEffect, useState } from 'react'
+import Newt from './Newt'
 
-type Project = {
-  number: string
-  title: string
-  summary: string
-  image: string
-  video?: string
-  tags: string[]
-  href?: string
-  live?: string
-  featured?: boolean
-}
+const EMAIL = 'shanekopec.dev@gmail.com'
+const GITHUB = 'https://github.com/kopecs48'
+const LINKEDIN = 'https://www.linkedin.com/in/shane-kopec-b4b85a1ab/'
+const RESUME = '/Shane_Kopec_resume_current.pdf'
 
-const projects: Project[] = [
+const jobs = [
   {
-    number: '01',
-    title: 'MCP Dashboard',
-    summary: 'A self-hosted, containerized reverse proxy that brings visibility to MCP traffic across my local AI setup by logging tool calls, status, latency, and payloads.',
-    image: '/images/mcp_dashboard.png',
-    tags: ['TypeScript', 'Fastify', 'SQLite', 'Docker', 'MCP', 'Self-hosted'],
-    href: 'https://github.com/kopecs48/mcp-dashboard',
-    featured: true,
+    dates: 'July 2025 to July 2026',
+    title: 'Senior Full Stack Software Engineer',
+    company: 'Cengage Group',
+    summary:
+      'Led the evolution of React, TypeScript, and Node.js systems supporting hundreds of thousands of GitHub Codespaces environments. Replaced legacy content synchronization, led a TypeScript migration, and moved validation into Codespaces to reduce feedback latency by roughly 85%.',
+    tools: 'TypeScript, React, Node.js, Docker, GitHub Codespaces',
   },
   {
-    number: '02',
-    title: 'Procedural Animations',
-    summary: 'Asset-free character and animal animations in Lua and LÖVE2D, with reusable movement modules for walking, trotting, and slithering and interchangeable visual models.',
-    image: '/images/human-walking.jpg',
-    video: '/videos/human-walking.webm',
-    tags: ['Lua', 'LÖVE2D', 'Procedural Animation'],
-    href: 'https://github.com/kopecs48/ProceduralAnimations',
-    featured: true,
+    dates: 'July 2023 to July 2025',
+    title: 'Junior Full Stack Software Engineer',
+    company: 'Cengage Group',
+    summary:
+      'Built production devcontainer images and CI/CD pipelines serving up to 30,000 seats per semester. Helped migrate 24 programming courses and more than 170,000 students to cloud development environments while creating scalable QA automation for release validation.',
+    tools: 'Devcontainers, GitHub Actions, GHCR, CI/CD, QA automation',
   },
 ]
 
-const skills = ['TypeScript', 'React', 'Node.js', 'Docker', 'GitHub Codespaces', 'CI/CD', 'VS Code Extensions', 'MCP']
+const machines = [
+  {
+    name: 'Dual-boot workstation',
+    specs: [
+      ['Processor', 'Ryzen 7 9800X3D'],
+      ['Graphics', 'MSI Ventus 3X RTX 5090'],
+      ['Memory', '32 GB DDR5'],
+      ['Systems', 'Arch Linux with KDE Plasma, Windows'],
+    ],
+    notes:
+      'I built this workstation myself and dual-boot Windows for gaming and Arch Linux for gaming and development. With roughly 29 GB of VRAM available after Arch and KDE Plasma overhead, I use llama.cpp to run Qwen3.8 and other 27B dense or comparably sized MoE models locally.',
+  },
+  {
+    name: 'Ubuntu server',
+    specs: [
+      ['Processor', 'Ryzen 7 5700X'],
+      ['Graphics', 'RTX 3080'],
+      ['Memory', '32 GB DDR4'],
+      ['Systems', 'Ubuntu, Docker'],
+    ],
+    notes:
+      'I built the machine entirely from secondhand parts and chose Ubuntu for its stability. Services run directly in Docker containers instead of through Proxmox, keeping GPU access straightforward without an added virtualization layer.',
+  },
+]
 
-function Arrow({ diagonal = false }: { diagonal?: boolean }) {
-  return <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>
-}
-
-function SocialIcon({ name }: { name: 'github' | 'linkedin' }) {
-  return name === 'github' ? (
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.4-1.3-5.4-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.4 5.7.4.4.8 1.1.8 2.2v3.2c0 .4.2.7.8.6A11.5 11.5 0 0 0 12 .7Z" /></svg>
-  ) : (
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.3 7.9H1.7V22h3.6V7.9ZM3.5 2a2.1 2.1 0 1 0 0 4.2A2.1 2.1 0 0 0 3.5 2ZM22.3 13.9c0-4.2-2.2-6.2-5.2-6.2-2.4 0-3.5 1.3-4.1 2.2v-2H9.4V22H13v-7c0-1.8.4-3.6 2.7-3.6 2.3 0 2.3 2.1 2.3 3.7V22h3.6l.7-8.1Z" /></svg>
-  )
-}
+type Theme = 'dark' | 'light'
+const THEME_COLORS: Record<Theme, string> = { dark: '#111a2e', light: '#e3eaec' }
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  // index.html has already applied the saved theme (or dark) to <html>.
+  const [theme, setTheme] = useState<Theme>(() => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'))
 
   useEffect(() => {
-    const close = () => setMenuOpen(false)
-    window.addEventListener('resize', close)
-    return () => window.removeEventListener('resize', close)
-  }, [])
+    document.documentElement.dataset.theme = theme
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[theme])
+    try {
+      localStorage.setItem('theme', theme)
+    } catch {
+      // Storage can be blocked; the choice then lasts for this visit only.
+    }
+  }, [theme])
 
   return (
-    <div className="site-shell">
-      <header className="nav-wrap">
-        <div className="brand-cluster">
-          <a className="monogram" href="#top" aria-label="Shane Kopec, home">SK<span>.</span></a>
-          <div className="header-socials" aria-label="Professional profiles">
-            <a href="https://github.com/kopecs48" target="_blank" rel="noreferrer" aria-label="GitHub"><SocialIcon name="github" /></a>
-            <a href="https://www.linkedin.com/in/shane-kopec-b4b85a1ab/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon name="linkedin" /></a>
-          </div>
-        </div>
-        <nav className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
-          <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <a href="#experience" onClick={() => setMenuOpen(false)}>Experience</a>
-          <a href="#work" onClick={() => setMenuOpen(false)}>Work</a>
-          <a className="resume-link" href="/Shane_Kopec_resume_current.pdf" target="_blank" onClick={() => setMenuOpen(false)}>Resume</a>
-          <a className="contact-pill" href="mailto:shanekopec.dev@gmail.com">Let’s talk <Arrow diagonal /></a>
+    <>
+      <a className="skip-link" href="#main">Skip to content</a>
+
+      <header className="site-header wrap">
+        <a className="site-name" href="#top">Shane Kopec</a>
+        <nav aria-label="Main navigation">
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#homelab">Homelab</a>
+          <a href={RESUME} target="_blank" rel="noreferrer">Resume</a>
+          <button className="theme-toggle" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          </button>
         </nav>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle navigation">
-          <span /><span />
-        </button>
       </header>
 
-      <main id="top">
-        <section className="hero section-pad">
-          <p className="eyebrow"><span className="status-dot" /> Available for the right opportunity</p>
-          <h1>Curious by nature.<br /><em>Always learning.</em></h1>
-          <div className="hero-bottom">
-            <p className="intro-copy">I’m Shane, a software engineer who likes asking how things work, learning what I don’t know, and turning that curiosity into useful software.</p>
-            <a className="hero-portrait" href="#about" aria-label="Learn more about Shane">
-              <img src="/images/shane-kopec-headshot.jpg" alt="Shane Kopec" />
-              <span className="portrait-arrow"><Arrow /></span>
-            </a>
-          </div>
-          <div className="hero-rule"><span>Based in Lawrence, New Jersey</span><span>Software Engineer · Lifelong Learner</span></div>
-        </section>
-
-        <section className="about section-pad" id="about">
-          <div className="about-label"><span>About</span><span className="curiosity-note">Always asking why</span></div>
-          <div className="about-copy">
-            <h2>Learning across the stack.<br /><em>Building at scale.</em></h2>
-            <div className="about-columns">
-              <p>Curiosity has taken me across the stack—from React and TypeScript products to Node.js services and containerized development infrastructure. At Cengage, that breadth helped me support cloud-based learning environments used across 24 programming courses and more than 170,000 students.</p>
-              <p>I’ve led JavaScript-to-TypeScript migrations, redesigned content delivery and validation pipelines, and reduced developer feedback time by roughly 85%. I care about dependable systems, maintainable code, and solving the infrastructure problems that make better product experiences possible.</p>
+      <main id="main">
+        <section className="hero" id="top">
+          <Newt />
+          <div className="wrap hero-inner">
+            <div className="hero-text">
+              <h1>Curious by nature.</h1>
+              <p className="lead">
+                I’m Shane, a software engineer in Lawrence, New Jersey. I like asking how things work, learning what I don’t know, and turning that curiosity into useful software.
+              </p>
+              <p className="hero-actions">
+                <a className="button" href={`mailto:${EMAIL}`}>Email me</a>
+                <a className="button quiet" href={RESUME} target="_blank" rel="noreferrer">Read my resume</a>
+              </p>
             </div>
-            <ul className="skills-list">
-              {skills.map((skill, index) => <li key={skill}><span>{String(index + 1).padStart(2, '0')}</span>{skill}</li>)}
-            </ul>
+            <p className="caption hero-caption">
+              <b>Fig. 1.</b> <i>Notophthalmus proceduralis</i>, a red eft. Common in New Jersey woods after rain; this one is drawn fresh every frame from eighteen circles and some trigonometry. It follows your pointer.
+            </p>
           </div>
         </section>
 
-        <section className="experience section-pad" id="experience">
-          <div className="section-heading">
-            <p className="kicker">Professional experience</p>
-            <h2>Building systems that<br /><em>work at scale.</em></h2>
-          </div>
-          <div className="experience-list">
-            <article className="experience-row">
-              <div className="experience-meta">
-                <p>Cengage Group</p>
-                <span>July 2025 — July 2026</span>
-              </div>
-              <div className="experience-detail">
-                <h3>Senior Full Stack Software Engineer</h3>
-                <p>Led the evolution of React, TypeScript, and Node.js systems supporting hundreds of thousands of GitHub Codespaces environments. Replaced legacy content synchronization, led a TypeScript migration, and moved validation into Codespaces to reduce feedback latency by roughly 85%.</p>
-                <ul className="tag-list dark-tags">
-                  <li>TypeScript</li><li>React</li><li>Node.js</li><li>Docker</li><li>GitHub Codespaces</li>
-                </ul>
-              </div>
-            </article>
-            <article className="experience-row">
-              <div className="experience-meta">
-                <p>Cengage Group</p>
-                <span>July 2023 — July 2025</span>
-              </div>
-              <div className="experience-detail">
-                <h3>Junior Full Stack Software Engineer</h3>
-                <p>Built production devcontainer images and CI/CD pipelines serving up to 30,000 seats per semester. Helped migrate 24 programming courses and more than 170,000 students to cloud development environments while creating scalable QA automation for release validation.</p>
-                <ul className="tag-list dark-tags">
-                  <li>Devcontainers</li><li>GitHub Actions</li><li>GHCR</li><li>CI/CD</li><li>QA Automation</li>
-                </ul>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section className="interests section-pad" aria-labelledby="interests-heading">
-          <div className="section-heading interests-heading">
-            <p className="kicker">Beyond work</p>
-            <div>
-              <h2 id="interests-heading">Off the clock.<br /><em>Still curious.</em></h2>
-              <p className="interests-intro">My curiosity follows me beyond the job. I enjoy running technology on my own terms and exploring the systems behind the tools I use.</p>
-            </div>
-          </div>
-          <div className="interest-list">
-            <article>
-              <span>01</span>
-              <h3>Local LLMs</h3>
-              <p>I experiment with models that run locally to better understand their capabilities, tradeoffs, and the infrastructure working behind the interface.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Self-hosting</h3>
-              <p>I like taking ownership of the whole stack—deploying useful services, keeping them running, and learning from everything that breaks along the way.</p>
-            </article>
-          </div>
-          <div className="homelab-setup">
-            <p className="kicker">The setup</p>
-            <div className="machine-list">
-              <article>
-                <div className="machine-heading">
-                  <span>01</span>
-                  <h3>Dual-boot workstation</h3>
-                </div>
-                <p className="machine-specs">Ryzen 7 9800X3D · MSI Ventus 3X RTX 5090 · 32 GB DDR5</p>
-                <p>I built this workstation myself and dual-boot Windows for gaming and Arch Linux for gaming and development. With roughly 29 GB of VRAM available after Arch and KDE Plasma overhead, I use llama.cpp to run Qwen3.8 and other 27B dense or comparably sized MoE models locally.</p>
-              </article>
-              <article>
-                <div className="machine-heading">
-                  <span>02</span>
-                  <h3>Ubuntu server</h3>
-                </div>
-                <p className="machine-specs">Ryzen 7 5700X · RTX 3080 · 32 GB DDR4</p>
-                <p>I built the machine entirely from secondhand parts and chose Ubuntu for its stability. Services run directly in Docker containers instead of through Proxmox, keeping GPU access straightforward without an added virtualization layer.</p>
-              </article>
+        <section className="band wrap" id="about">
+          <div className="margin-row">
+            <img className="portrait" src="/images/shane-kopec-headshot.jpg" alt="Shane Kopec" width="400" height="400" />
+            <div className="prose">
+              <h2>Learning across the stack, building at scale</h2>
+              <p>
+                Curiosity has taken me across the stack, from React and TypeScript products to Node.js services and containerized development infrastructure. At Cengage, that breadth helped me support cloud-based learning environments used across 24 programming courses and more than 170,000 students.
+              </p>
+              <p>
+                I’ve led JavaScript-to-TypeScript migrations, redesigned content delivery and validation pipelines, and reduced developer feedback time by roughly 85%. I care about dependable systems, maintainable code, and solving the infrastructure problems that make better product experiences possible.
+              </p>
+              <p className="aside">
+                Most days I work with TypeScript, React, Node.js, Docker, GitHub Codespaces, CI/CD pipelines, VS Code extensions, and MCP. I’m open to the right opportunity.
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="projects section-pad" id="work">
-          <div className="section-heading">
-            <p className="kicker">Selected work</p>
-            <h2>Exploring through <em>building.</em></h2>
-          </div>
-          <div className="project-list">
-            {projects.map((project) => (
-              <article className={project.featured ? 'project-card featured' : 'project-card'} key={project.title}>
-                {project.video ? (
-                  <div className="project-image-wrap">
-                    <span className="project-number">{project.number}</span>
-                    <video controls playsInline preload="none" poster={project.image} aria-label={`${project.title}: human walking animation demo`}>
-                      <source src={project.video} type="video/webm" />
-                      <a href={project.video}>Download the animation demo</a>
-                    </video>
-                  </div>
-                ) : (
-                  <div className="project-image-wrap">
-                    <span className="project-number">{project.number}</span>
-                    <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
-                  </div>
-                )}
-                <div className="project-content">
-                  <div className="project-title-row">
-                    <h3>{project.title}</h3>
-                    {project.href && <a className="project-code-button" href={project.href} target="_blank" rel="noreferrer" aria-label={`View ${project.title} code on GitHub`}>View code <Arrow diagonal /></a>}
-                  </div>
-                  <p>{project.summary}</p>
-                  <ul className="tag-list" aria-label="Technologies">
-                    {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-                  </ul>
-                  {project.live && <div className="project-links"><a href={project.live} target="_blank" rel="noreferrer">Live site <Arrow diagonal /></a></div>}
+        <section className="band wrap ruled" id="experience">
+          <h2>Experience</h2>
+          <ol className="jobs">
+            {jobs.map((job) => (
+              <li className="margin-row" key={job.title}>
+                <p className="job-dates">{job.dates}</p>
+                <div className="prose">
+                  <h3>{job.title}</h3>
+                  <p className="job-company">{job.company}</p>
+                  <p>{job.summary}</p>
+                  <p className="aside">Worked with {job.tools}.</p>
                 </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="dark" id="projects">
+          <div className="band wrap">
+            <h2>Things I built to find out how they work</h2>
+
+            <article className="project">
+              <figure>
+                <img src="/images/mcp_dashboard.png" alt="A table of recent MCP calls showing server, method, status, latency, and request payload" loading="lazy" width="1112" height="557" />
+                <figcaption className="caption"><b>Fig. 2.</b> Recent calls passing through the proxy, with status and latency for each.</figcaption>
+              </figure>
+              <div className="prose">
+                <h3>MCP Dashboard</h3>
+                <p>
+                  A self-hosted, containerized reverse proxy that brings visibility to MCP traffic across my local AI setup by logging tool calls, status, latency, and payloads.
+                </p>
+                <p className="aside">Built with TypeScript, Fastify, SQLite, and Docker.</p>
+                <p><a className="button" href="https://github.com/kopecs48/mcp-dashboard" target="_blank" rel="noreferrer"aria-label="View the MCP Dashboard code on GitHub">View the code on GitHub</a></p>
+              </div>
+            </article>
+
+            <article className="project flipped">
+              <figure>
+                <video controls playsInline preload="none" poster="/images/human-walking.jpg" aria-label="Procedural Animations: a character walking, animated entirely in code">
+                  <source src="/videos/human-walking.webm" type="video/webm" />
+                  <a href="/videos/human-walking.webm">Download the animation demo</a>
+                </video>
+                <figcaption className="caption"><b>Fig. 3.</b> A walking character with no sprite sheet. Press play to watch it move.</figcaption>
+              </figure>
+              <div className="prose">
+                <h3>Procedural Animations</h3>
+                <p>
+                  Asset-free character and animal animations in Lua and LÖVE2D, with reusable movement modules for walking, trotting, and slithering and interchangeable visual models.
+                </p>
+                <p className="aside">Built with Lua and LÖVE2D. The newt at the top of this page uses the same ideas.</p>
+                <p><a className="button" href="https://github.com/kopecs48/ProceduralAnimations" target="_blank" rel="noreferrer"aria-label="View the Procedural Animations code on GitHub">View the code on GitHub</a></p>
+              </div>
+            </article>
+
+            <p className="more"><a href={GITHUB} target="_blank" rel="noreferrer">See everything else on GitHub</a></p>
+          </div>
+        </section>
+
+        <section className="band wrap" id="homelab">
+          <div className="margin-row">
+            <div />
+            <div className="prose">
+              <h2>Off the clock, still curious</h2>
+              <p>
+                I enjoy running technology on my own terms. I experiment with models that run locally to understand their capabilities, their tradeoffs, and the infrastructure working behind the interface. And I like owning the whole stack: deploying useful services, keeping them running, and learning from everything that breaks along the way.
+              </p>
+            </div>
+          </div>
+          <div className="machines">
+            {machines.map((machine) => (
+              <article className="machine" key={machine.name}>
+                <h3>{machine.name}</h3>
+                <dl>
+                  {machine.specs.map(([label, value]) => (
+                    <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+                  ))}
+                </dl>
+                <p>{machine.notes}</p>
               </article>
             ))}
           </div>
-          <a className="text-link" href="https://github.com/kopecs48" target="_blank" rel="noreferrer">Explore all projects on GitHub <Arrow diagonal /></a>
         </section>
 
-        <section className="contact section-pad" id="contact">
-          <p className="kicker">Have a project or opportunity?</p>
-          <h2>Let’s make something<br /><em>worth using.</em></h2>
-          <a className="email-link" href="mailto:shanekopec.dev@gmail.com">shanekopec.dev@gmail.com <Arrow diagonal /></a>
+        <section className="band wrap ruled contact" id="contact">
+          <h2>Have a project or an opening? Write to me.</h2>
+          <a className="email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </section>
       </main>
 
-      <footer className="footer section-pad">
-        <a className="monogram" href="#top">SK<span>.</span></a>
+      <footer className="wrap site-footer">
         <p>© {new Date().getFullYear()} Shane Kopec</p>
-        <div><a href="https://github.com/kopecs48" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/shane-kopec-b4b85a1ab/" target="_blank" rel="noreferrer">LinkedIn</a></div>
+        <p><a href={GITHUB} target="_blank" rel="noreferrer">GitHub</a><a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a></p>
       </footer>
-    </div>
+    </>
   )
 }
 
